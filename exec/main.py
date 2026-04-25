@@ -137,9 +137,12 @@ def populate_current_flights():
             if not os.path.exists(local_photo):
                 photo_query = requests.get('https://api.planespotters.net/pub/photos/hex/' + aircraft.get('hex'))
 
-                photo_data = json.loads(photo_query.content)
+                try:
+                    photo_data = json.loads(photo_query.content)
+                except:
+                    photo_data = None
 
-                if photo_data.get('photos') and len(photo_data.get('photos')) > 0:
+                if photo_data and photo_data.get('photos') and len(photo_data.get('photos')) > 0:
                     thumbnail = photo_data.get('photos')[0].get(
                         'thumbnail_large').get('src')
 
